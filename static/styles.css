@@ -38,6 +38,7 @@ h1 {
 input[type="text"] {
     padding: 12px;
     font-size: 16px;
+    font-weight: 700; /* Makes the font bold */
     width: calc(100% - 40px);
     max-width: 360px;
     margin-bottom: 20px;
@@ -48,6 +49,7 @@ input[type="text"] {
     text-align: center;
     outline: none;
     box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.5);
+    font-family: 'JetBrains Mono', monospace; /* Friendly and bold monospace font */
 }
 
 input[type="text"]:focus {
