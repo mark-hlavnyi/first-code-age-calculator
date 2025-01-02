@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Calculator</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #000000, #3b1d5e, #24243e);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            text-align: center;
+            width: 350px;
+            max-width: 90%;
+            animation: slideIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            font-size: 16px;
+            width: 80%;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            outline: none;
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="text"]:focus {
+            border: 1px solid #3498db;
+            box-shadow: 0 0 10px #8e44ad, 0 0 20px #3498db;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #8e44ad, #3498db);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #3498db;
+            white-space: pre-wrap;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>When Were You Born?</h1>
+    <form id="birthdayForm" method="POST">
+        <input type="text" id="born_date" name="born_date" placeholder="YYYY MM DD" required>
+        <br>
+        <button type="submit">Calculate</button>
+    </form>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    document.getElementById("birthdayForm").addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent default form submission
+        const bornDate = document.getElementById("born_date").value;
+
+        // Send data to the server
+        const response = await fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `born_date=${encodeURIComponent(bornDate)}`
+        });
+
+        const resultText = await response.text();
+
+        // Animate typing effect
+        const resultContainer = document.getElementById("result");
+        resultContainer.textContent = ""; // Clear previous result
+
+        let i = 0;
+        function typeWriter() {
+            if (i < resultText.length) {
+                resultContainer.textContent += resultText[i];
+                i++;
+                setTimeout(typeWriter, 50); // Adjust typing speed here
+            }
+        }
+        typeWriter();
+    });
+</script>
+</body>
+</html>
