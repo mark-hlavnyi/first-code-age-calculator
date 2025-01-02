@@ -30,6 +30,10 @@ def verify_born_input(born_date):
         if len(parts) == 1:
             year = int(parts[0])
             month, day = 1, 1
+        elif len(parts) == 2:
+            year = int(parts[0])
+            month = int(parts[1])
+            day = 1
         elif len(parts) == 3:
             year, month, day = map(int, parts)
         else:
@@ -42,7 +46,7 @@ def verify_born_input(born_date):
             return None, "Date is in the future"
         return specific_date, None
     except ValueError:
-        return None, "Invalid date input"
+        return None, "Invalid date input. Use YYYY MM DD"
     except OverflowError:
         return None, "Overflow input value"
 
